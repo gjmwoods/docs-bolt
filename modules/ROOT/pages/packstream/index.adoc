@@ -920,6 +920,6 @@ Instead, refer to the xref:bolt/structure-semantics.adoc[] for the Bolt version 
 ** Introduction of `UUID` type.
 
 [[packstream-summary-1]]
-=== Version 1
+=== Version 1.0
 
 ** Initial version consisting of `NULL`, `Boolean`, `Integer`, `Float`, `Bytes`, `String`, `List` `Dictionary` and `Structure` types.
