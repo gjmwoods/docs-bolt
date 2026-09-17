@@ -4,7 +4,24 @@
 
 PackStream is a binary presentation format for the exchange of richly-typed data. It provides a syntax layer for the Bolt messaging protocol.
 
-== Version 1
+== Versioning
+
+PackStream is versioned independently of the bolt protocol.
+Only one version of PackStream is supported in each bolt protocol version.
+
+
+|===
+|Bolt Protocol Version |PackStream Version
+
+|< 6.0
+|1.0
+
+|>= 6.1
+| 1.1
+
+|===
+
+== Definition
 
 PackStream is a general purpose data serialisation format, originally inspired by (but incompatible with) link:https://msgpack.org/[MessagePack].
 
@@ -498,7 +515,7 @@ N.B. While the unsigned 32-bit integer following `D3` could hold a bigger number
 
 [[data-type-uuid]]
 === `UUID`
-label:new[Introduced in bolt 6.1]
+label:new[PackStream 1.1]
 
 A UUID (Universally Unique Identifier, https://www.rfc-editor.org/rfc/rfc9562.html[RFC 9562]) is a 128-bit value used to uniquely identify information.
 UUIDs are commonly represented as a hyphenated hexadecimal string such as `550e8400-e29b-41d4-a716-446655440000`, which encodes the 16 bytes in big-endian order across five groups separated by hyphens.
@@ -510,35 +527,6 @@ For example the UUID `550e8400-e29b-41d4-a716-446655440000` is represented as fo
 ```
 E0 55 0E 84 00 E2 9B 41 D4 A7 16 44 66 55 44 00 00
 ```
-
-==== Unsupported Bolt Versions
-Clients that negotiate a protocol version which does not support the UUID type will instead receive a backwards compatible placeholder.
-The placeholder value depends on which version has been negotiated.
-
-===== 5.8 and earlier
-Clients that have negotiated version 5.8 or earlier will instead recieve a Dictionary type as a placeholder with
-the following content:
-
-
-----
-{"originalType": "UUID", "reason": "UNKNOWN_TYPE"}
-----
-
-
-===== 6.0
-Clients that have negotiated version 6.0 will receive a
-xref:bolt/structure-semantics.adoc#structure-unsupported-type[`Unsupported Type`] with the following values:
-
-----
-{
-    name: "UUID",
-    minimum_protocol_major: 6,
-    minimum_protocol_minor: 1,
-    extra: {}
-)
-----
-
-
 [[data-type-list]]
 === `List`
 
@@ -922,3 +910,16 @@ The *tag byte* is used to identify the type or class of the structure and may ho
 
 PackStream itself does not define semantics for different structures.
 Instead, refer to the xref:bolt/structure-semantics.adoc[] for the Bolt version in question.
+
+[[packstream-summary]]
+== Summary of changes per version
+
+[[packsteam-summary-2]]
+=== Version 1.1
+
+** Introduction of `UUID` type.
+
+[[packstream-summary-1]]
+=== Version 1
+
+** Initial version consisting of `NULL`, `Boolean`, `Integer`, `Float`, `Bytes`, `String`, `List` `Dictionary` and `Structure` types.
